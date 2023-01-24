@@ -28,7 +28,7 @@ print("Number of Accelerators: ", strategy.num_replicas_in_sync)
 
 # Model
 IMAGE_SIZE = [224, 224] # Change this accordingly. 
-MODEL_PATH = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224_fe" 
+MODEL_PATH = "https://tfhub.dev/sayakpaul/swin_tiny_patch4_window7_224" 
 
 # TPU
 BATCH_SIZE = 128  # on Colab/GPU, a higher batch size may throw OOM
