@@ -52,7 +52,7 @@ print(test_df.head())
 
 
 gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
-session = tf.compat.v1.InteractiveSession(config=tf.ConfigProto(gpu_options=gpu_options))
+session = tf.compat.v1.InteractiveSession(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options))
 
 mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in mobnet.layers:
