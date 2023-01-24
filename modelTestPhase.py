@@ -84,7 +84,7 @@ datagen_train = ImageDataGenerator(rescale = 1./255,
 
 train_generator = datagen_train.flow_from_dataframe(
         train_df,
-        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
+        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
         target_size=(300, 300),
@@ -94,7 +94,7 @@ train_generator = datagen_train.flow_from_dataframe(
 #Validation Data
 valid_generator = datagen_train.flow_from_dataframe(
         test_df,
-        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
+        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
         target_size=(300, 300),
