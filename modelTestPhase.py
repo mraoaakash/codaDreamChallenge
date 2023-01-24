@@ -12,7 +12,8 @@ from tensorflow.keras.applications import MobileNetV3Large
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.applications import EfficientNetB0
 
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Conv2D, MaxPool2D
+from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.models import load_model
@@ -31,7 +32,7 @@ from tensorflow.compat.v1 import InteractiveSession
 
 
 EPOCHS = 30
-BATCH_SIZE = 50
+BATCH_SIZE = 128
 IMG_SIZE = 224
 IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
 INP_SIZE = (IMG_SIZE, IMG_SIZE)
@@ -42,7 +43,8 @@ def fix_gpu():
     config.gpu_options.allow_growth = True
     session = InteractiveSession(config=config)
 
-
+# do lr optimization
+# increase model complexity
 # fix_gpu()
 
 train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['spectrogram','tb_status']]
@@ -82,12 +84,24 @@ print(test_df.head())
 inception = InceptionV3(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in inception.layers:
     layer.trainable = True
-x = Flatten()(inception.output)
-x = Dense(1024, activation = 'relu')(x)
-x = Dropout(0.2)(x)
-x = Dense(2, activation = 'softmax')(x)
-model2 = Model(inception.input, x)
-model2.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
+input_layer = Input(shape=(224,224,3)) #Image resolution is 224x224 pixels
+x = Conv2D(128, (7, 7), padding='same', activation='relu', strides=(2, 2))(input_layer)
+x = Conv2D(128, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
+x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
+x = MaxPool2D((3, 3), padding='same',strides=(2, 2))(x)
+x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
+x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
+x = MaxPool2D((4, 4), padding='same', strides=(2, 2))(x)
+
+x = inception(x) #Error in this line
+x = GlobalAveragePooling2D()(x)
+
+predictions = Dense(11, activation='softmax')(x) #I have 11 classes of image to classify
+
+model = Model(inputs = input_layer, outputs=predictions)
+
+model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['acc'])
+model.summary()
 
 # effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 # for layer in effnet.layers:
