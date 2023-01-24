@@ -12,8 +12,7 @@ from tensorflow.keras.applications import MobileNetV3Large
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.applications import EfficientNetB0
 
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Conv1D, MaxPool1D
-from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.models import load_model
@@ -84,24 +83,12 @@ print(test_df.head())
 inception = InceptionV3(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in inception.layers:
     layer.trainable = True
-model = Sequential()
-input_layer = Input(shape=(224,224,3)) #Image resolution is 224x224 pixels
-model.add(inception)
-model.add(Flatten())
-model.add(Conv1D(128, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool1D((2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv1D(64, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool1D((2, 2)))
-model.add(Dropout(0.2))
-model.add(Conv1D(32, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool1D((2, 2)))
-model.add(Dropout(0.2))
-
-model.add(Dense(2, activation='softmax'))
-
-model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['acc'])
-model.summary()
+x = Flatten()(inception.output)
+x = Dense(1024, activation = 'relu')(x)
+x = Dropout(0.2)(x)
+x = Dense(2, activation = 'softmax')(x)
+model2 = Model(inception.input, x)
+model2.compile(optimizer = RMSprop(learning_rate = 0.01), loss = 'categorical_crossentropy', metrics = ['acc'])
 
 # effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 # for layer in effnet.layers:
