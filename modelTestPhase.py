@@ -50,7 +50,7 @@ test_df = test_df.sample(frac=1).reset_index(drop=True)
 print(train_df.head())
 print(test_df.head())
 
-mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in mobnet.layers:
     layer.trainable = True
 x = Flatten()(mobnet.output)
@@ -60,7 +60,7 @@ x = Dense(2, activation = 'softmax')(x)
 model1 = Model(mobnet.input, x)
 model1.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-inception = InceptionV3(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+inception = InceptionV3(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in inception.layers:
     layer.trainable = True
 x = Flatten()(inception.output)
@@ -70,7 +70,7 @@ x = Dense(2, activation = 'softmax')(x)
 model2 = Model(inception.input, x)
 model2.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in effnet.layers:
     layer.trainable = True
 x = Flatten()(effnet.output)
