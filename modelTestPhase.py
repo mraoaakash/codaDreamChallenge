@@ -58,7 +58,6 @@ mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(50
 for layer in mobnet.layers:
     layer.trainable = True
 x = Flatten()(mobnet.output)
-x = Dense(1024, activation = 'relu')(x)
 x = Dropout(0.2)(x)
 x = Dense(2, activation = 'softmax')(x)
 model1 = Model(mobnet.input, x)
@@ -68,7 +67,6 @@ inception = InceptionV3(weights='imagenet', include_top=False, input_shape=(500,
 for layer in inception.layers:
     layer.trainable = True
 x = Flatten()(inception.output)
-x = Dense(1024, activation = 'relu')(x)
 x = Dropout(0.2)(x)
 x = Dense(2, activation = 'softmax')(x)
 model2 = Model(inception.input, x)
@@ -78,7 +76,6 @@ effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(500,
 for layer in effnet.layers:
     layer.trainable = True
 x = Flatten()(effnet.output)
-x = Dense(1024, activation = 'relu')(x)
 x = Dropout(0.2)(x)
 x = Dense(2, activation = 'softmax')(x)
 model3 = Model(effnet.input, x)
