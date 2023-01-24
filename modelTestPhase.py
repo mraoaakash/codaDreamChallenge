@@ -25,8 +25,20 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from sklearn.metrics import classification_report, confusion_matrix
 
+train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['filename','tb_status']]
+test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/testData.csv")[['filename','tb_status']]
 
+# changing the column names for train and test
+train_df.columns = ['filename','label']
+test_df.columns = ['filename','label']
 
+# shuffling the dataset
+train_df = train_df.sample(frac=1).reset_index(drop=True)
+test_df = test_df.sample(frac=1).reset_index(drop=True)
+
+# Showing the data head
+print(train_df.head())
+print(test_df.head())
 
 mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 for layer in mobnet.layers:
@@ -68,18 +80,19 @@ datagen_train = ImageDataGenerator(rescale = 1./255,
                                     height_shift_range = 0.2,
                                     zoom_range = 0.2,
                                     horizontal_flip = True,
-                                    fill_mode = 'nearest',
-                                    validation_split = 0.2)
+                                    fill_mode = 'nearest')
 
-train_generator = datagen_train.flow_from_directory(
-        train_path,
+train_generator = datagen_train.flow_from_dataframe(
+        train_df,
+        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
         target_size=(300, 300),
         batch_size=32,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
-valid_generator = datagen_train.flow_from_directory(
-        train_path,
+valid_generator = datagen_train.flow_from_dataframe(
+        test_df,
+        directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
         target_size=(300, 300),
         batch_size=32,
         class_mode='categorical',
