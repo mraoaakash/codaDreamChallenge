@@ -108,7 +108,7 @@ valid_generator = datagen_train.flow_from_dataframe(
         x_col='filename',
         y_col='label',
         target_size=(500, 500),
-        batch_size=32,
+        batch_size=10,
         class_mode='categorical',
         subset = 'validation',
         shuffle=False)
@@ -117,7 +117,7 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     print("------------------------------------------")
     print(f'Training the model {model_type}')
     print("------------------------------------------")
-    history = model.fit(train_generator, validation_data = valid_generator, epochs=20, verbose=1)
+    history = model.fit(train_generator, validation_data = valid_generator, epochs=30, verbose=1)
 
     print("------------------------------------------")
     print(f'Training Complete')
