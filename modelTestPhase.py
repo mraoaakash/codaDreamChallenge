@@ -50,6 +50,10 @@ test_df = test_df.sample(frac=1).reset_index(drop=True)
 print(train_df.head())
 print(test_df.head())
 
+
+gpu_options = tf.GPUOptions(allow_growth=True)
+session = tf.InteractiveSession(config=tf.ConfigProto(gpu_options=gpu_options))
+
 mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in mobnet.layers:
     layer.trainable = True
