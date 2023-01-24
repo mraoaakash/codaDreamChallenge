@@ -95,8 +95,8 @@ valid_generator = datagen_test.flow_from_dataframe(
         class_mode='categorical',
         shuffle=False)
 
-num_train = tf.data.experimental.cardinality(train_generator)
-num_val = tf.data.experimental.cardinality(valid_generator)
+# num_train = tf.data.experimental.cardinality(train_generator)
+# num_val = tf.data.experimental.cardinality(valid_generator)
 
 class WarmUpCosine(tf.keras.optimizers.schedules.LearningRateSchedule):
     def __init__(
@@ -157,7 +157,7 @@ WARMUP_STEPS = 10
 INIT_LR = 0.03
 WAMRUP_LR = 0.006
 
-TOTAL_STEPS = int((num_train / BATCH_SIZE) * EPOCHS)
+TOTAL_STEPS = 600
 
 scheduled_lrs = WarmUpCosine(
     learning_rate_base=INIT_LR,
