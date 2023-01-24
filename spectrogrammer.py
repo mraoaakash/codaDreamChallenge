@@ -27,7 +27,7 @@ def spectrogram():
             # print(librosa.get_duration(x, sr))
             S = librosa.feature.melspectrogram(x, sr=sr, n_mels=128)
             log_S = librosa.power_to_db(S, ref=np.max)
-            plt.figure(figsize=(5, 5))
+            plt.figure(figsize=(2.24, 2.24))
             librosa.display.specshow(log_S, sr=sr,fmax=8000)
             plt.clim(-80,0)
             plt.tight_layout()
