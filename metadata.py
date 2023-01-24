@@ -12,7 +12,7 @@ patient_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Clinical_Meta_Info.cs
 audio_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Solicited_Meta_Info.csv"))
 patient_data = patient_data[['participant','tb_status']]
 new_df = pd.merge(patient_data, audio_data, on='participant')
-# new_df = new_df[['participant','tb_status','audio_file','audio_duration']]
+new_df = new_df[['participant','tb_status','filename','sound_prediction_score']]
 print(patient_data.head())
 print(audio_data.head())
 print(new_df.head())
