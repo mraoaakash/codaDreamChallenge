@@ -22,15 +22,15 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+   
 from sklearn.metrics import classification_report, confusion_matrix
 
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
 
-EPOCHS = 30
-BATCH_SIZE = 32
+EPOCHS = 50
+BATCH_SIZE = 10
 IMG_SIZE = 224
 IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
 
