@@ -125,7 +125,7 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     # Creating a directory to save the model paths 
 
     # Saving the model
-    model.save(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+    model.save(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/dense121_01.h5')
     print("------------------------------------------")
     print(f'Model saved')
     print("------------------------------------------")
@@ -141,23 +141,23 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     plt.title('Training and Validation Accuracy')
     plt.legend(['train', 'test'], loc='upper left')
     plt.tight_layout()
-    plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Accuracy.jpg')
+    plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/Accuracy.jpg')
 
-    # np.save('/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history1.npy',history.history)
+    # np.save('/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history1.npy',history.history)
 
     hist_df = pd.DataFrame(history.history) 
 
     # save to json:  
-    hist_json_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.json' 
+    hist_json_file = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history.json' 
     with open(hist_json_file, mode='w') as f:
         hist_df.to_json(f)
 
     # or save to csv: 
-    hist_csv_file = f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/history.csv'
+    hist_csv_file = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history.csv'
     with open(hist_csv_file, mode='w') as f:
         hist_df.to_csv(f)
 
-    loaded_model = load_model(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/dense121_01.h5')
+    loaded_model = load_model(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/dense121_01.h5')
     outcomes = loaded_model.predict(valid_generator)
     y_pred = np.argmax(outcomes, axis=1)
     # confusion matrix
@@ -168,16 +168,16 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
     plt.tight_layout()
-    plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
+    plt.savefig(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/Confusion_matrix.jpg')
 
     conf_df = pd.DataFrame(confusion, index = ['negative','positive'], columns = ['negative','positive'])
-    conf_df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
+    conf_df.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/Confusion_matrix.csv')
 
     # classification report
     target_names = ['negative','positive']
     report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
     df = pd.DataFrame(report).transpose()
-    df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
+    df.to_csv(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/Classification_report.csv')
 
     print("------------------------------------------")
     print(f'Supplimentary Data Saved')
