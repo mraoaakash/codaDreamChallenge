@@ -29,8 +29,8 @@ from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
 
-EPOCHS = 50
-BATCH_SIZE = 10
+EPOCHS = 20
+BATCH_SIZE = 32
 IMG_SIZE = 224
 IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
 INP_SIZE = (IMG_SIZE, IMG_SIZE)
@@ -108,6 +108,8 @@ datagen_train = ImageDataGenerator(rescale = 1./255,
                                     horizontal_flip = True,
                                     fill_mode = 'nearest')
 
+datagen_test = ImageDataGenerator(rescale = 1./255)
+
 train_generator = datagen_train.flow_from_dataframe(
         train_df,
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
@@ -115,10 +117,9 @@ train_generator = datagen_train.flow_from_dataframe(
         y_col='label',
         target_size=INP_SIZE,
         batch_size=BATCH_SIZE,
-        class_mode='categorical',
-        subset = 'training')
+        class_mode='categorical')
 #Validation Data
-valid_generator = datagen_train.flow_from_dataframe(
+valid_generator = datagen_test.flow_from_dataframe(
         test_df,
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
@@ -126,7 +127,6 @@ valid_generator = datagen_train.flow_from_dataframe(
         target_size=INP_SIZE,
         batch_size=BATCH_SIZE,
         class_mode='categorical',
-        subset = 'validation',
         shuffle=False)
 
 for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2, model3]):

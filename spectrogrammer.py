@@ -41,4 +41,4 @@ def spectrogram():
             plt.clf()
 
 if __name__ == "__main__":
-    spectrogram()
+    spectrogram()  
