@@ -12,5 +12,5 @@ patient_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Clinical_Meta_Info.cs
 audio_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Solicited_Meta_Info.csv"))
 # patient_data = patient_data['participant','tb_status']
 
-print(patient_data['participant'])
+print(patient_data[['participant','tb_status']])
 print(audio_data['participant'])
