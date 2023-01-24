@@ -25,6 +25,18 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from sklearn.metrics import classification_report, confusion_matrix
 
+from tensorflow.compat.v1 import ConfigProto
+from tensorflow.compat.v1 import InteractiveSession
+
+
+def fix_gpu():
+    config = ConfigProto()
+    config.gpu_options.allow_growth = True
+    session = InteractiveSession(config=config)
+
+
+fix_gpu()
+
 train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['spectrogram','tb_status']]
 test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/testData.csv")[['spectrogram','tb_status']]
 
@@ -49,10 +61,6 @@ test_df = test_df.sample(frac=1).reset_index(drop=True)
 # Showing the data head
 print(train_df.head())
 print(test_df.head())
-
-
-gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
-session = tf.compat.v1.InteractiveSession(config=tf.compat.v1.ConfigProto(gpu_options=gpu_options))
 
 mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
 for layer in mobnet.layers:
