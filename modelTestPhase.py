@@ -32,7 +32,7 @@ from tensorflow.compat.v1 import InteractiveSession
 EPOCHS = 50
 BATCH_SIZE = 10
 IMG_SIZE = 224
-IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
+IMG_SHAPE = (IMG_SIZE, IMG_SIZE)
 
 
 def fix_gpu():
