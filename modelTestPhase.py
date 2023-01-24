@@ -51,7 +51,7 @@ print(train_df.head())
 print(test_df.head())
 
 
-gpu_options = tf.GPUOptions(allow_growth=True)
+gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
 session = tf.InteractiveSession(config=tf.ConfigProto(gpu_options=gpu_options))
 
 mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
