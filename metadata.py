@@ -8,7 +8,7 @@ import tensorflow as tf
 
 basepath = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data"
 
-patient_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Clinical_Meta_Info.csv"))
+patient_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Clinical_Meta_Info.csv"))['participant','tb_status']
 audio_data = pd.read_csv(os.path.join(basepath, "CODA_TB_Solicited_Meta_Info.csv"))
 
 print(patient_data.head())
