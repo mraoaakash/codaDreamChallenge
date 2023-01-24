@@ -16,3 +16,4 @@ new_df = new_df[['participant','tb_status','filename','sound_prediction_score']]
 print(patient_data.head())
 print(audio_data.head())
 print(new_df.head())
+new_df.to_csv(os.path.join(basepath, "masterData.csv"), index=False)
