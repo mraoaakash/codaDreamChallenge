@@ -32,7 +32,8 @@ from tensorflow.compat.v1 import InteractiveSession
 EPOCHS = 50
 BATCH_SIZE = 10
 IMG_SIZE = 224
-IMG_SHAPE = (IMG_SIZE, IMG_SIZE)
+IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
+INP_SIZE = (IMG_SIZE, IMG_SIZE)
 
 
 def fix_gpu():
@@ -68,7 +69,7 @@ test_df = test_df.sample(frac=1).reset_index(drop=True)
 print(train_df.head())
 print(test_df.head())
 
-mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=(500,500, 3))
+mobnet = MobileNetV3Large(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in mobnet.layers:
     layer.trainable = True
 x = Flatten()(mobnet.output)
@@ -77,7 +78,7 @@ x = Dense(2, activation = 'softmax')(x)
 model1 = Model(mobnet.input, x)
 model1.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-inception = InceptionV3(weights='imagenet', include_top=False, input_shape=(500,500, 3))
+inception = InceptionV3(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in inception.layers:
     layer.trainable = True
 x = Flatten()(inception.output)
@@ -86,7 +87,7 @@ x = Dense(2, activation = 'softmax')(x)
 model2 = Model(inception.input, x)
 model2.compile(optimizer = RMSprop(learning_rate = 0.0001), loss = 'categorical_crossentropy', metrics = ['acc'])
 
-effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=(500,500, 3))
+effnet = EfficientNetB0(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in effnet.layers:
     layer.trainable = True
 x = Flatten()(effnet.output)
@@ -112,7 +113,7 @@ train_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=IMG_SHAPE,
+        target_size=INP_SIZE,
         batch_size=BATCH_SIZE,
         class_mode='categorical',
         subset = 'training')
@@ -122,7 +123,7 @@ valid_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=IMG_SHAPE,
+        target_size=INP_SIZE,
         batch_size=BATCH_SIZE,
         class_mode='categorical',
         subset = 'validation',
