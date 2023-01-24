@@ -12,7 +12,7 @@ from tensorflow.keras.applications import MobileNetV3Large
 from tensorflow.keras.applications import InceptionV3
 from tensorflow.keras.applications import EfficientNetB0
 
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Conv2D, MaxPool2D
+from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Conv1D, MaxPool1D
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop
@@ -88,14 +88,14 @@ model = Sequential()
 input_layer = Input(shape=(224,224,3)) #Image resolution is 224x224 pixels
 model.add(inception)
 model.add(Flatten())
-model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool2D((2, 2)))
+model.add(Conv1D(128, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool1D((2, 2)))
 model.add(Dropout(0.2))
-model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool2D((2, 2)))
+model.add(Conv1D(64, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool1D((2, 2)))
 model.add(Dropout(0.2))
-model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-model.add(MaxPool2D((2, 2)))
+model.add(Conv1D(32, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool1D((2, 2)))
 model.add(Dropout(0.2))
 
 model.add(Dense(2, activation='softmax'))
