@@ -42,7 +42,7 @@ def fix_gpu():
     session = InteractiveSession(config=config)
 
 
-fix_gpu()
+# fix_gpu()
 
 train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['spectrogram','tb_status']]
 test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/testData.csv")[['spectrogram','tb_status']]
