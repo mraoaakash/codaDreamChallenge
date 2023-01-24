@@ -32,6 +32,11 @@ test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenge
 train_df.columns = ['filename','label']
 test_df.columns = ['filename','label']
 
+# changing the label names
+train_df['label'] = train_df['label'].replace({'positive':1, 'negative':0})
+test_df['label'] = test_df['label'].replace({'positive':1, 'negative':0})
+
+
 # shuffling the dataset
 train_df = train_df.sample(frac=1).reset_index(drop=True)
 test_df = test_df.sample(frac=1).reset_index(drop=True)
