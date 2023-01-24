@@ -25,8 +25,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from sklearn.metrics import classification_report, confusion_matrix
 
-train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['filename','tb_status']]
-test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/testData.csv")[['filename','tb_status']]
+train_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/trainData.csv")[['spectrogram','tb_status']]
+test_df = pd.read_csv("/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/meta_data/testData.csv")[['spectrogram','tb_status']]
 
 # changing the column names for train and test
 train_df.columns = ['filename','label']
@@ -85,6 +85,8 @@ datagen_train = ImageDataGenerator(rescale = 1./255,
 train_generator = datagen_train.flow_from_dataframe(
         train_df,
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
+        x_col='filename',
+        y_col='label',
         target_size=(300, 300),
         batch_size=32,
         class_mode='categorical',
@@ -93,6 +95,8 @@ train_generator = datagen_train.flow_from_dataframe(
 valid_generator = datagen_train.flow_from_dataframe(
         test_df,
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/solicited_data",
+        x_col='filename',
+        y_col='label',
         target_size=(300, 300),
         batch_size=32,
         class_mode='categorical',
