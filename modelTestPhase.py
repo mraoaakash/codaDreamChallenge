@@ -36,6 +36,11 @@ test_df.columns = ['filename','label']
 train_df['label'] = train_df['label'].replace({'positive':1, 'negative':0})
 test_df['label'] = test_df['label'].replace({'positive':1, 'negative':0})
 
+# making label as categorical
+train_df['label'] = train_df['label'].astype('str')
+test_df['label'] = test_df['label'].astype('str')
+
+
 
 # shuffling the dataset
 train_df = train_df.sample(frac=1).reset_index(drop=True)
