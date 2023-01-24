@@ -84,21 +84,21 @@ print(test_df.head())
 inception = InceptionV3(weights='imagenet', include_top=False, input_shape=IMG_SHAPE)
 for layer in inception.layers:
     layer.trainable = True
+model = Sequential()
 input_layer = Input(shape=(224,224,3)) #Image resolution is 224x224 pixels
-x = Conv2D(128, (7, 7), padding='same', activation='relu', strides=(2, 2))(input_layer)
-x = Conv2D(128, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
-x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
-x = MaxPool2D((3, 3), padding='same',strides=(2, 2))(x)
-x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
-x = Conv2D(64, (7, 7), padding='same', activation='relu', strides=(2, 2))(x)
-x = MaxPool2D((4, 4), padding='same', strides=(2, 2))(x)
+model.add(inception)
+model.add(Flatten())
+model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool2D((2, 2)))
+model.add(Dropout(0.2))
+model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool2D((2, 2)))
+model.add(Dropout(0.2))
+model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
+model.add(MaxPool2D((2, 2)))
+model.add(Dropout(0.2))
 
-x = inception(x) #Error in this line
-x = GlobalAveragePooling2D()(x)
-
-predictions = Dense(2, activation='softmax')(x) #I have 11 classes of image to classify
-
-model = Model(inputs = input_layer, outputs=predictions)
+model.add(Dense(2, activation='softmax'))
 
 model.compile(optimizer=Adam(lr=0.01), loss='categorical_crossentropy', metrics=['acc'])
 model.summary()
