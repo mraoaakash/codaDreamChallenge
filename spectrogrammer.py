@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import warnings
 import multiprocessing as mp
 from multiprocessing import Pool
+from PIL import Image
 
 
 warnings.filterwarnings("ignore")
@@ -33,6 +34,10 @@ def spectrogram():
             plt.tight_layout()
             # plt.show()
             plt.savefig(f"{output_path}/{filename[:-4]}.png")
+            # resizing the plot to 224x224
+            img = Image.open(f"{output_path}/{filename[:-4]}.png")
+            img = img.resize((224, 224))
+            img.save(f"{output_path}/{filename[:-4]}.png")
             plt.clf()
 
 if __name__ == "__main__":
