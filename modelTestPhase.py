@@ -102,7 +102,7 @@ train_generator = datagen_train.flow_from_dataframe(
         x_col='filename',
         y_col='label',
         target_size=(500, 500),
-        batch_size=32,
+        batch_size=10,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
