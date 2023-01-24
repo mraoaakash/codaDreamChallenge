@@ -29,8 +29,8 @@ from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
 
-EPOCHS = 20
-BATCH_SIZE = 32
+EPOCHS = 50
+BATCH_SIZE = 20
 IMG_SIZE = 224
 IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
 INP_SIZE = (IMG_SIZE, IMG_SIZE)
