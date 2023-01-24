@@ -16,6 +16,7 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flat
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.models import load_model
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -134,6 +135,11 @@ for model_type, model in zip(['inception'], [ model2]):
     print("------------------------------------------")
     print(f'Training the model {model_type}')
     print("------------------------------------------")
+    filepath = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/modellog'
+    if os.path.exists(filepath):
+        os.makedirs(filepath)
+    filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
+    ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
     history = model.fit(train_generator, validation_data = valid_generator, epochs=EPOCHS, verbose=1)
 
     print("------------------------------------------")
@@ -173,7 +179,7 @@ for model_type, model in zip(['inception'], [ model2]):
     hist_csv_file = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history.csv'
     with open(hist_csv_file, mode='w+') as f:
         hist_df.to_csv(f)
-
+    
     loaded_model = load_model(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/dense121_01.h5')
     outcomes = loaded_model.predict(valid_generator)
     y_pred = np.argmax(outcomes, axis=1)
