@@ -139,8 +139,8 @@ for model_type, model in zip(['inception'], [ model2]):
     if os.path.exists(filepath):
         os.makedirs(filepath)
     filepath = filepath + "/model-{epoch:02d}-{val_acc:.2f}.h5"
-    ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
-    history = model.fit(train_generator, validation_data = valid_generator, epochs=EPOCHS, verbose=1)
+    callbacks = ModelCheckpoint(filepath, monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', period=1)
+    history = model.fit(train_generator, validation_data = valid_generator, epochs=EPOCHS, verbose=1, callbacks=callbacks)
 
     print("------------------------------------------")
     print(f'Training Complete')
