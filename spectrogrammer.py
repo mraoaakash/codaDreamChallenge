@@ -18,6 +18,7 @@ basepath = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/cod
 
 def spectrogram():
     for filename in os.listdir(basepath):
+        print(filename)
         path = os.path.join(basepath, filename)
         x, sr = librosa.load(path, sr=44100)
         if librosa.get_duration(x, sr) == 0.5:
