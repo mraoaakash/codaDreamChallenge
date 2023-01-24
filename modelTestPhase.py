@@ -29,6 +29,12 @@ from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
 
+EPOCHS = 30
+BATCH_SIZE = 32
+IMG_SIZE = 224
+IMG_SHAPE = (IMG_SIZE, IMG_SIZE, 3)
+
+
 def fix_gpu():
     config = ConfigProto()
     config.gpu_options.allow_growth = True
@@ -106,8 +112,8 @@ train_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=(500, 500),
-        batch_size=5,
+        target_size=IMG_SHAPE,
+        batch_size=BATCH_SIZE,
         class_mode='categorical',
         subset = 'training')
 #Validation Data
@@ -116,8 +122,8 @@ valid_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=(500, 500),
-        batch_size=5,
+        target_size=IMG_SHAPE,
+        batch_size=BATCH_SIZE,
         class_mode='categorical',
         subset = 'validation',
         shuffle=False)
@@ -126,7 +132,7 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     print("------------------------------------------")
     print(f'Training the model {model_type}')
     print("------------------------------------------")
-    history = model.fit(train_generator, validation_data = valid_generator, epochs=30, verbose=1)
+    history = model.fit(train_generator, validation_data = valid_generator, epochs=EPOCHS, verbose=1)
 
     print("------------------------------------------")
     print(f'Training Complete')
@@ -158,12 +164,12 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
 
     # save to json:  
     hist_json_file = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history.json' 
-    with open(hist_json_file, mode='w') as f:
+    with open(hist_json_file, mode='w+') as f:
         hist_df.to_json(f)
 
     # or save to csv: 
     hist_csv_file = f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/history.csv'
-    with open(hist_csv_file, mode='w') as f:
+    with open(hist_csv_file, mode='w+') as f:
         hist_df.to_csv(f)
 
     loaded_model = load_model(f'/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/models/{model_type}/dense121_01.h5')
