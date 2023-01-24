@@ -97,7 +97,7 @@ train_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=(300, 300),
+        target_size=(500, 500),
         batch_size=32,
         class_mode='categorical',
         subset = 'training')
@@ -107,7 +107,7 @@ valid_generator = datagen_train.flow_from_dataframe(
         directory = "/home/chs.rintu/Documents/chs-lab-ws02/research-challenges/dream/coda-tb-22/Train/raw_data/spect",
         x_col='filename',
         y_col='label',
-        target_size=(300, 300),
+        target_size=(500, 500),
         batch_size=32,
         class_mode='categorical',
         subset = 'validation',
@@ -117,7 +117,7 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     print("------------------------------------------")
     print(f'Training the model {model_type}')
     print("------------------------------------------")
-    history = model.fit(train_generator, validation_data = valid_generator, epochs=50)
+    history = model.fit(train_generator, validation_data = valid_generator, epochs=20, verbose=1)
 
     print("------------------------------------------")
     print(f'Training Complete')
@@ -170,11 +170,11 @@ for model_type, model in zip(['mobnet', 'inception', 'effnet'], [model1, model2,
     plt.tight_layout()
     plt.savefig(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.jpg')
 
-    conf_df = pd.DataFrame(confusion, index = ['wdoscc','mdoscc','pdoscc'], columns = ['wdoscc','mdoscc','pdoscc'])
+    conf_df = pd.DataFrame(confusion, index = ['negative','positive'], columns = ['negative','positive'])
     conf_df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Confusion_matrix.csv')
 
     # classification report
-    target_names = ['wdoscc','mdoscc','pdoscc']
+    target_names = ['negative','positive']
     report = classification_report(valid_generator.classes, y_pred, target_names=target_names, output_dict=True)
     df = pd.DataFrame(report).transpose()
     df.to_csv(f'/storage/bic/data/oscc/data/Histology-image-analysis/models/{model_type}/Classification_report.csv')
