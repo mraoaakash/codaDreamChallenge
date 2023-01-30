@@ -76,6 +76,11 @@ datagen_train = ImageDataGenerator(rescale = 1./255,
                                     fill_mode = 'nearest')
 
 datagen_test = ImageDataGenerator(rescale = 1./255)
+model.compile(
+    optimizer="sgd",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy", "sparse_top_k_categorical_accuracy"],
+)
 
 train_generator = datagen_train.flow_from_dataframe(
         train_df,
