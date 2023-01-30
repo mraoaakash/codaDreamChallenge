@@ -1,27 +1,12 @@
-from gcvit_tensorflow import GCViT
+from cvt_tensorflow import CvT
 import numpy as np
 import os
-import time
-import datetime
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
-
-
 import tensorflow as tf
-from tensorflow.keras.applications import MobileNetV3Large
-from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.applications import EfficientNetB0
-
-from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.models import load_model
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
-
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.callbacks import ModelCheckpoint
 
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
    
@@ -71,27 +56,12 @@ test_df = test_df.sample(frac=1).reset_index(drop=True)
 # Showing the data head
 print(train_df.head())
 print(test_df.head())
-model_type = 'GCViT'
+model_type = 'cvt'
 
-model = GCViT(
-    depths=[2, 2, 6, 2],
-    num_heads=[2, 4, 8, 16],
-    window_size=[7, 7, 14, 7],
-    dim=64,
-    resolution=224,
-    in_chans=3,
-    mlp_ratio=3,
-    drop_path_rate=0.2,
-    data_format="channels_last",
-    num_classes=2,
-    classifier_activation="softmax",
+model = CvT(
+    configuration="cvt-21", data_format="channels_last", classifier_activation="softmax"
 )
-
-model.compile(
-    optimizer="sgd",
-    loss="sparse_categorical_crossentropy",
-    metrics=["accuracy", "sparse_top_k_categorical_accuracy"],
-)
+model.build((None, 224, 224, 3))
 
 # Building the training data generator
 
